@@ -1,8 +1,6 @@
 package com.tab.todolist.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.*
 import com.tab.core.entity.Card
 import com.tab.core.repo.CardRepository
 import com.tab.core.usecase.CreateCardUseCase
@@ -12,22 +10,39 @@ import com.tab.core.usecase.impl.CreateCardUseCaseImpl
 import com.tab.core.usecase.impl.GetCardsUseCaseImpl
 import com.tab.core.usecase.impl.RemoveCardUseCaseImpl
 import com.tab.todolist.repo.CardRepositoryImpl
+import kotlinx.coroutines.launch
 
-class ToDoListFragmentViewModel : ViewModel() {
+class ToDoListFragmentViewModel constructor(
+    private val getCardsUseCase: GetCardsUseCase,
+    private val removeCardUseCase: RemoveCardUseCase,
+    private val createCardUseCase: CreateCardUseCase,
+) : ViewModel() {
 
-    private val cardRepository: CardRepository = CardRepositoryImpl()
-    private val getCardsUseCase: GetCardsUseCase = GetCardsUseCaseImpl(cardRepository)
-    private val removeCardUseCase: RemoveCardUseCase = RemoveCardUseCaseImpl(cardRepository)
-    private val createCardUseCase: CreateCardUseCase = CreateCardUseCaseImpl(cardRepository)
+    private val _cadsLiveData = MutableLiveData<List<Card>>()
+    val cardsLiveData: LiveData<List<Card>>
+        get() = _cadsLiveData
 
-    val cardsLiveData: LiveData<List<Card>> = getCardsUseCase.getCards().asLiveData()
+    init {
+        fetchCardList()
+    }
 
     fun createCard(title: String, description: String) {
-        createCardUseCase.createCard(title, description)
+        viewModelScope.launch {
+            createCardUseCase.createCard(title, description)
+            fetchCardList()
+        }
     }
 
     fun removeCard(card: Card) {
-        removeCardUseCase.removeCard(card)
+        viewModelScope.launch {
+            removeCardUseCase.removeCard(card)
+            fetchCardList()
+        }
     }
 
+    private fun fetchCardList() {
+        viewModelScope.launch {
+            _cadsLiveData.postValue(getCardsUseCase.getCards())
+        }
+    }
 }

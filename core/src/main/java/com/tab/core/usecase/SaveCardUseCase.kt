@@ -4,5 +4,5 @@ import com.tab.core.entity.Card
 
 
 interface SaveCardUseCase {
-    fun saveCard(newCard: Card)
+    suspend fun saveCard(newCard: Card)
 }

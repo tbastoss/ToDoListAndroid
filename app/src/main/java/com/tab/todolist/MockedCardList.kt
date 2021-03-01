@@ -11,7 +11,7 @@ object MockedCardList {
         Card("title" + it, "description", true)
     })
 
-    fun getCardsMockedList(): Flow<List<Card>> = cardList
+    fun getCardsMockedList(): List<Card> = cardList.value
 
     fun addCard(card: Card) {
         cardList.value += card

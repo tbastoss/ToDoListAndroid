@@ -7,13 +7,13 @@ import kotlinx.coroutines.flow.Flow
 
 class CardRepositoryImpl : CardRepository {
 
-    override fun getCards(): Flow<List<Card>> = MockedCardList.getCardsMockedList()
+    override suspend fun getCards(): List<Card> = MockedCardList.getCardsMockedList()
 
-    override fun saveCard(card: Card) {
+    override suspend fun saveCard(card: Card) {
         MockedCardList.addCard(card)
     }
 
-    override fun removeCard(card: Card) {
+    override suspend fun removeCard(card: Card) {
         MockedCardList.removeCard(card)
     }
 }

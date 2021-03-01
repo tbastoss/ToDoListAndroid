@@ -8,7 +8,7 @@ class RemoveCardUseCaseImpl (
     private val cardRepository: CardRepository
 ) : RemoveCardUseCase {
 
-    override fun removeCard(card: Card) {
+    override suspend fun removeCard(card: Card) {
         cardRepository.removeCard(card)
     }
 }
