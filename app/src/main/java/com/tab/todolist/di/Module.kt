@@ -14,7 +14,6 @@ import com.tab.todolist.viewmodel.ToDoListFragmentViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-
 val viweModelModule = module {
 
     fun provideViewModel(getCardsUseCase: GetCardsUseCase,
@@ -55,31 +54,3 @@ val useCaseModule = module {
     single { provideRemoveCardUseCase(get()) }
     single { provideSaveCardUseCase(get()) }
 }
-
-//    fun provideGetCardsUseCase(repository: CardRepository) : GetCardsUseCase {
-//        return GetCardsUseCaseImpl(repository)
-//    }
-//
-//    fun provideRemoveCardUseCase(repository: CardRepository) : RemoveCardUseCase {
-//        return RemoveCardUseCaseImpl(repository)
-//    }
-//
-//    fun provideCreateCardUseCase(repository: CardRepository) : CreateCardUseCase {
-//        return CreateCardUseCaseImpl(repository)
-//    }
-//
-//    single { provideGetCardsUseCase(get()) }
-//    single { provideRemoveCardUseCase(get()) }
-//    single { provideCreateCardUseCase(get()) }
-//    viewModel { ToDoListFragmentViewModel(get(), get(), get()) }
-//}
-//
-//val useCaseModule = module {
-//    fun provideCardRepository() : CardRepository {
-//        return CardRepositoryImpl()
-//    }
-//
-//    single {
-//        provideCardRepository()
-//    }
-//}
