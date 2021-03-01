@@ -8,7 +8,7 @@ class SaveCardUseCaseImpl (
     private val cardRepository: CardRepository
 ) : SaveCardUseCase {
 
-    override fun saveCard(newCard: Card) {
+    override suspend fun saveCard(newCard: Card) {
         cardRepository.saveCard(newCard)
     }
 }

@@ -9,6 +9,6 @@ class GetCardsUseCaseImpl (
     private val cardRepository: CardRepository
 ) : GetCardsUseCase{
 
-    override fun getCards(): Flow<List<Card>> = cardRepository.getCards()
+    override suspend fun getCards(): List<Card> = cardRepository.getCards()
 
 }

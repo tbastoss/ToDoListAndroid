@@ -25,7 +25,7 @@ class CardListAdapter (
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(cardList.get(position))
+        holder.bind(cardList[position])
     }
 
     override fun getItemCount(): Int {
@@ -44,8 +44,8 @@ class CardListAdapter (
         private var done: Button = binding.doneBtn
 
         fun bind (card: Card) {
-            title.setText(card.title)
-            description.setText(card.description)
+            title.text = card.title
+            description.text = card.description
             done.setOnClickListener {
                 cardRemover(card)
             }

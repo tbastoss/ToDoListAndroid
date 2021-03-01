@@ -7,12 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.tab.core.entity.Card
 import com.tab.todolist.databinding.FragmentToDoListBinding
 import com.tab.todolist.viewmodel.ToDoListFragmentViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ToDoListFragment : Fragment() {
 
@@ -20,13 +21,13 @@ class ToDoListFragment : Fragment() {
     private var _binding: FragmentToDoListBinding? = null
     private val binding get() = _binding!!
 
-    //ViewModel
-    private lateinit var  viewModel: ToDoListFragmentViewModel
-
     private lateinit var fab: FloatingActionButton
     private lateinit var recycerView: RecyclerView
     private lateinit var recyclerViewAdapter: CardListAdapter
     private lateinit var layoutManager: RecyclerView.LayoutManager
+
+    //ViewModel
+    private val  viewModel by viewModel<ToDoListFragmentViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +57,6 @@ class ToDoListFragment : Fragment() {
      * Initiate UI components
      */
     private fun init() {
-        viewModel = ToDoListFragmentViewModel()
         fab = binding.fab
         layoutManager = LinearLayoutManager(context)
         recycerView = binding.cardsRecyclerview
@@ -72,9 +72,9 @@ class ToDoListFragment : Fragment() {
      * Observer for CardList
      */
     private fun observeCardList() {
-        viewModel.cardsLiveData.observe(this, {
+        viewModel.cardsLiveData.observe(this) {
             recyclerViewAdapter.setCardList(it)
-        })
+        }
     }
 
     /**
